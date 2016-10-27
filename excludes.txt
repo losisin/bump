@@ -5,8 +5,4 @@ tmp/*
 run/*
 mnt/*
 media/*
-var/log/*
-var/lib/lxcfs
-var/lib/lxcfs/*
-var/lib/lxd/*
 lost+found
