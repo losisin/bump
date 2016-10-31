@@ -44,4 +44,5 @@ Weekly backup on remote host using tarball and keep only last 4 backups (includi
 * Introduce traps and better exit messages
 * Introduce logging and logrotate configuration file
 * Verify tarball archives as digital archive maintenance
+
 For issues and features request use [GitHUb issues](https://github.com/losisin/bump/issues)
