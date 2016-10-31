@@ -1,13 +1,13 @@
 # bump
-Bump CLI is a command line backup utility writen in pure bash. You can create backups locally (on  different partition or hard drive) and on remote backup server or storage device as long as you have SSH access. Bump CLi runs agent less, so when backing up local machine on remote host all commands are exceuted over SSH.
+Bump CLI is a command line backup utility writen in pure bash. You can create backups locally (on  different partition or hard drive) and on remote backup server or storage device as long as you have SSH access. Bump CLI runs agent less, so when backing up local machine on remote host all commands are exceuted over SSH.
 ## Licence
-GPLv3 
+GPLv3
 ## Prerequisites
-Bash 4+
-sshpass (optional)
+* Bash 4+
+* sshpass (optional)
 ## Options
 ```
-Usage: path/to/bump/bump.sh [options] [arguments]
+Usage: /path/to/bump/bump.sh [options] [arguments]
 
 Options:
 -h, --help            Print this help message
@@ -26,13 +26,14 @@ Options:
 -v, --version         Bump CLI version
 ```
 ## Usage
-Bump CLI is meant to be run as root user or with sudo in a cron job. 
+Bump CLI is meant to be run as root user or with sudo privileges in a cron job.
 Basic usage `/path/to/bump/bump.sh -B`. This will create incremental backup on different partion or hard drive with unlimeted number of backups. You can also choose different options based on your retention policy for backups. Example cron jobs can looks like this:
-* Daily incremental backup on different partion or hard drive with unlimeted number of backups using rsync.
+Daily incremental backup on different partion or hard drive with unlimeted number of backups using rsync:
 ```
 0 2 * * * /path/to/bump/bump.sh -B >/dev/null 2>&1
 ```
-* Weekly backup on remote host using tarball and keep only last 4 backups (including md5sum files)
+Weekly backup on remote host using tarball and keep only last 4 backups (including md5sum files):
+```
 30 0 * * 7 /path/to/bump/bump.sh -B -d remote -t archive -f week -k 4 >/dev/null 2>&1
 
 ```
