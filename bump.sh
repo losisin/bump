@@ -2,9 +2,6 @@
 
 # Bump CLI is a command line backup and restore utility with predefined retention policy
 #
-# @author Aleksandar Stojanov <aleksandar.stojanov@polarcape.com>
-# @version 1.0.1
-#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -26,6 +23,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $DIR/bump.conf
 
 # Set vars
+VERSION="1.0.1"
 HOST=$(uname -n)
 BAK=false
 RST=false
@@ -60,6 +58,7 @@ Options:
                       Default is day
 -k, --keep-files      Number of backups to keep depending on frequency option.
                       Default is -1 (unlimited)
+-v, --version         Bump CLI version
 EOF
 
 }
@@ -74,7 +73,7 @@ function remote_login() {
 }
 
 # Prepare for parsing options
-ARGS="$(getopt -o hBRt:d:f:k: -l help,backup,restore,type:,destination:,frequency:,keep-files: -- "$@")"
+ARGS="$(getopt -o hBRt:d:f:k:v -l help,backup,restore,type:,destination:,frequency:,keep-files:,version -- "$@")"
 
 # Check response for errors. If that's the case, then exit
 if [ $? != 0 ]; then
@@ -138,6 +137,10 @@ while true ; do
         exit 2
       fi
       shift 2
+      ;;
+    -v|--version)
+      echo "Bump CLI $VERSION"
+      exit
       ;;
     --)
       shift
