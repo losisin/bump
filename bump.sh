@@ -20,7 +20,7 @@ set -euo pipefail
 
 # Load configuration file
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $DIR/bump.conf
+source $DIR/default.conf
 
 # Set vars
 VERSION="1.0.1"
