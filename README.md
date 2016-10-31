@@ -2,7 +2,7 @@
 Bump CLI is a command line backup utility writen in pure bash. You can create backups locally (on  different partition or hard drive) and on remote backup server or storage device as long as you have SSH access. Bump CLi runs agent less, so when backing up local machine on remote host all commands are exceuted over SSH.
 ## Licence
 GPLv3 
-## Preruquisites
+## Prerequisites
 Bash 4+
 sshpass (optional)
 ## Options
