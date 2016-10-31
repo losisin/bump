@@ -29,7 +29,7 @@ Options:
 Bump CLI is meant to be run as root user or with sudo privileges in a cron job.
 Basic usage `/path/to/bump/bump.sh -B`. This will create incremental backup on different partion or hard drive with unlimeted number of backups. You can also choose different options based on your retention policy for backups. Example cron jobs can looks like this:
 
-Daily incremental backup on different partion or hard drive with unlimeted number of backups using rsync:
+Daily incremental backup on different partition or hard drive with unlimited number of backups using rsync:
 ```
 0 2 * * * /path/to/bump/bump.sh -B >/dev/null 2>&1
 ```
