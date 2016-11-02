@@ -120,4 +120,4 @@ else
   remote_login "$(declare -f rotate); rotate $CMD $REMOTE_DIR/$HOST/$FREQ $MAX_KEEP"
 fi
 
-echo "Done"
+echo "Creating backup archive done."
