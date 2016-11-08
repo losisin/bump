@@ -23,7 +23,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $DIR/default.conf
 
 # Set vars
-VERSION="1.0.1"
+VERSION="1.0.2"
 HOST=$(uname -n)
 LOCAL=true
 REMOTE=false
@@ -50,6 +50,7 @@ Options:
 -h, --help            Print this help message
 -B, --backup          Backup file sysytem
 -R, --restore         Restore file sysytem
+-V, --verify          Verify checksum for tarball created archives
 -t, --type            Type of backup to create.
                       It can be raw hard links using rsync or archive file using tar.
                       Default is raw.
