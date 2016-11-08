@@ -23,12 +23,14 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $DIR/default.conf
 
 # Set vars
-VERSION="1.0.1"
+VERSION="1.0.2"
 HOST=$(uname -n)
-BAK=false
-RST=false
 LOCAL=true
 REMOTE=false
+FLAG=false
+BAK=false
+RST=false
+VRF=false
 FREQ="day"
 DIR_ARR=("day" "week" "month" "year")
 
@@ -48,6 +50,7 @@ Options:
 -h, --help            Print this help message
 -B, --backup          Backup file sysytem
 -R, --restore         Restore file sysytem
+-V, --verify          Verify checksum for tarball created archives
 -t, --type            Type of backup to create.
                       It can be raw hard links using rsync or archive file using tar.
                       Default is raw.
@@ -73,7 +76,7 @@ function remote_login() {
 }
 
 # Prepare for parsing options
-ARGS="$(getopt -o hBRt:d:f:k:v -l help,backup,restore,type:,destination:,frequency:,keep-files:,version -- "$@")"
+ARGS="$(getopt -o hBRVt:d:f:k:v -l help,backup,restore,verify,type:,destination:,frequency:,keep-files:,version -- "$@")"
 
 # Check response for errors. If that's the case, then exit
 if [ $? != 0 ]; then
@@ -81,20 +84,38 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
+# Don't do anything unless explicitly told
+function single() {
+  if [[ $FLAG == true ]]; then
+    echo "You must choose either backup (-B|--backup), restore (-R|--restore) or (-V|--verify)"
+    exit 1
+  fi
+}
+
 # Iterate over all options
 eval set -- "$ARGS"
 while true ; do
   case "$1" in
     -h|--help)
       usage
-      exit 1
+      exit
       ;;
     -B|--backup)
+      single
+      FLAG=true
       BAK=true
       shift
       ;;
     -R|--restore)
+      single
+      FLAG=true
       RST=true
+      shift
+      ;;
+    -V|--verify)
+      single
+      FLAG=true
+      VRF=true
       shift
       ;;
     -t|--type)
@@ -154,28 +175,34 @@ while true ; do
   esac
 done
 
-# Don't do anything unless explicitly told
-if [[ $BAK == true && $RST == true ]] || [[ $BAK != true && $RST != true ]]; then
-    echo "You must choose either backup (-B|--backup) OR restore (-R|--restore)"
-    exit
-fi
-
 # Load procedure scripts based on user input
-if [[ $RST == true ]]; then
-  echo "Preparing to restore data."
+if [[ $BAK == true ]]; then
+  echo "Preparing to backup data. Please wait..."
+  source $DIR/backup.sh
+elif [[ $RST == true ]]; then
   echo "Warning: this is potentially dangerous operation. Backup your data first."
   echo "MAKE SURE YOU KNOW WHAT YOU'RE DOING!"
   while true; do
       read -p "Do you sure you want to perform restore? (y/n): " yn
       case $yn in
-          [Yy]* ) source $DIR/restore.sh ; break;;
-          [Nn]* ) echo "Restore procedure canceled" ; exit;;
-          * ) echo "Please answer yes or no.";;
+          [Yy]* )
+            echo "Preparing to restore data. Please wait..."
+            source $DIR/restore.sh
+            break;;
+          [Nn]* )
+            echo "Restore procedure canceled"
+            exit;;
+          * )
+            echo "Please answer yes or no.";;
       esac
   done
+elif [[ $VRF == true ]]; then
+  echo "Verifying backup archives. Please wait..."
+  source $DIR/verify.sh
 else
-  echo "Preparing to backup data. Please wait..."
-  source $DIR/backup.sh
+  echo "You must choose either backup (-B|--backup), restore (-R|--restore) or (-V|--verify)"
+  exit 1
 fi
 
+# Since we ended up here, exit with success
 exit 0
