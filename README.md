@@ -58,17 +58,16 @@ Weekly backup (every Sunday at 01:30 AM) on remote host using tarball and keep o
 
 ```
 ### Verify
-Occasionally, we need to make sure our backups archive is in good shape. In oder words, we don't end up with, for ex. corrupted files which will make our backups useless. That's where `-V, --verify` option kicks in. You can set up cron job that will run every few months. Here is an example cron job that will verify backups at 05:00 AM on 1^st^ day of month every 6^th^ month on remote server:
+Occasionally, we need to make sure our backup archives are in good shape. In oder words, we don't end up with, for ex. corrupted files which will make our backups useless. That's where `-V, --verify` option kicks in. You can set up cron job that will run every few months. Here is an example cron job that will verify backups at 05:00 AM on 1<sup>st</sup> day of month every 6<sup>th</sup> month on remote server:
 ```
 0 5 1 */6 * /path/to/bump/bump.sh -V -d remote
 ```
-*NOTE:* Verify option is only available for backups created with tarball. It doesn't make sense to create checksum for every file if you are using `-t raw` option (done with rsync).
+**NOTE:** Verify option is only available for backups created with tarball. It doesn't make sense to create checksum for every file if you are using `-t raw` option (done with rsync).
 ## To Do
 * Introduce restore procedures
 * Optimize creation and network transfer for backups
 * Introduce traps and better exit messages
 * Introduce logging and logrotate configuration file
 * Make backup archives immutable (read only)
-* ~~Verify tarball archives with md5sum for digital archive maintenance~~
 
-For issues and features request use [GitHUb issues](https://github.com/losisin/bump/issues)
+For issues and features request use [GitHUb issues](https://github.com/losisin/bump/issues).
