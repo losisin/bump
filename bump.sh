@@ -175,12 +175,6 @@ while true ; do
   esac
 done
 
-# Don't do anything unless explicitly told
-# if [[ $BAK == true && $RST == true && $VRF == true ]] || [[ $BAK != true && $RST != true && $VRF != true ]]; then
-#     echo "You must choose either backup (-B|--backup), restore (-R|--restore) or (-V|--verify)"
-#     exit 1
-# fi
-
 # Load procedure scripts based on user input
 if [[ $BAK == true ]]; then
   echo "Preparing to backup data. Please wait..."
@@ -202,9 +196,12 @@ elif [[ $RST == true ]]; then
             echo "Please answer yes or no.";;
       esac
   done
-else
+elif [[ $VRF == true ]]; then
   echo "Verifying backup archives. Please wait..."
   source $DIR/verify.sh
+else
+  echo "You must choose either backup (-B|--backup), restore (-R|--restore) or (-V|--verify)"
+  exit 1
 fi
 
 # Since we ended up here, exit with success
